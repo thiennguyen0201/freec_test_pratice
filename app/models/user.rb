@@ -12,6 +12,9 @@ class User < ApplicationRecord
 
   before_save :downcase_email
 
+  scope :by_name, ->(name) { where('name like ?', "%#{name}%") }
+  scope :by_email, ->(email) { where('email like ?', "%#{email}%") }
+
   def downcase_email
     self.email = email.downcase
   end
