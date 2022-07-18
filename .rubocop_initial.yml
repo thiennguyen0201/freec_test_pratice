@@ -1,0 +1,74 @@
+Layout/EmptyLines:
+  Exclude:
+    - 'config/environments/development.rb'
+
+Layout/ExtraSpacing:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Layout/SpaceAroundOperators:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Layout/LineLength:
+  Exclude:
+    - 'config/**/*'
+    - 'Gemfile'
+    - 'Rakefile'
+  Max: 80
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/ClassLength:
+  Max: 120
+
+Metrics/CyclomaticComplexity:
+  Max: 7
+
+Metrics/MethodLength:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 8
+
+Rails/FilePath:
+  Exclude:
+    - 'config/environments/development.rb'
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalStdStream:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Style/RedundantFetchBlock:
+  Exclude:
+    - 'config/puma.rb'
+
+Style/StringLiterals:
+  Exclude:
+    - 'config/application.rb'
+    - 'config/environments/production.rb'
+    - 'config/puma.rb'
+    - 'config/spring.rb'
+    - 'spec/rails_helper.rb'
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/ClassAndModuleChildren:
+  Enabled: false
