@@ -21,6 +21,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_18_163901) do
     t.integer "role", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name"
   end
 
 end
