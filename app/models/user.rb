@@ -8,7 +8,7 @@ class User < ApplicationRecord
   enum role: { admin: 0, user: 1 }
 
   validates :name, :email, :password, presence: true
-  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP}
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   before_save :downcase_email
 

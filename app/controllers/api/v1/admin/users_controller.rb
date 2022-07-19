@@ -5,9 +5,11 @@ class Api::V1::Admin::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
 
   def index
+    authorize User
+
     users =
       Users::AdminUsersQuery.new(filter_params).call
-    render json: { users: users }, status: :ok
+    render json: { users: users, pages: pagination(users) }, status: :ok
   end
 
   def update
@@ -16,7 +18,8 @@ class Api::V1::Admin::UsersController < ApplicationController
     if user_form.submit
       render json: { user: user_form.user }, status: :ok
     else
-      render json: { error: user_form.user.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: user_form.user.errors.full_messages },
+             status: :unprocessable_entity
     end
   end
 
@@ -24,14 +27,15 @@ class Api::V1::Admin::UsersController < ApplicationController
     if @user.destroy
       render json: { user: @user }, status: :ok
     else
-      render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: @user.errors.full_messages },
+             status: :unprocessable_entity
     end
   end
 
   private
 
   def filter_params
-    params.require(:q).permit(:name, :email)
+    params.permit(:name, :email)
   end
 
   def update_params
@@ -40,5 +44,7 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   def set_user
     @user = User.find_by(id: params[:id])
+
+    authorize @user
   end
 end

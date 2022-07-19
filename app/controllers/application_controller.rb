@@ -1,27 +1,31 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include JsonWebToken
+  include Pundit::Authorization
+
   attr_reader :current_user
 
-  include Pundit::Authorization
-  include JsonWebToken
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  private
+  protected
 
   def authenticate_request!
     if user_id? && valid_token?
-      @current_user = User.find_by(id: auth_token[:user_id])
+      @current_user = User.find(auth_token[:user_id])
     else
-      return render json: { errors: 'Unauthorized' }, status: :unauthorized
+      render json: { error: 'Unauthorized' }, status: :unauthorized
     end
-  rescue JWT::VerificationError, JWT::DecodeError
-    render json: { errors: 'Unauthorized' }, status: :unauthorized
+  rescue JWT::VerificationError, JWT::DecodeError, ActiveRecord::RecordNotFound
+    render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 
+  private
+
   def http_token
-      @http_token ||= if request.headers['Authorization'].present?
-        request.headers['Authorization'].split(' ').last
-      end
+    @http_token ||= if request.headers['Authorization'].present?
+                      request.headers['Authorization'].split(' ').last
+                    end
   end
 
   def auth_token
@@ -38,5 +42,23 @@ class ApplicationController < ActionController::API
 
   def token_expired?
     auth_token[:expired] <= Time.zone.now.to_i
+  end
+
+  def user_not_authorized
+    render json: { error: 'You are not allowed to take action on this user' },
+           status: :unauthorized
+
+    return
+  end
+
+  # Pagination
+  def pagination(data)
+    {
+      current_page: data.current_page,
+      prev_page: data.prev_page,
+      next_page: data.next_page,
+      max_page: data.total_pages,
+      total: data.total_count
+    }
   end
 end
