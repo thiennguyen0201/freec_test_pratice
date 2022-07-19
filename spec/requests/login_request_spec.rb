@@ -15,8 +15,9 @@ RSpec.describe 'Api::V1::Auth::Login', type: :request do
         }
       end
 
-      it 'returns http success' do
+      it 'returns token and http success' do
         subject
+        expect(JSON.parse(response.body)['token']).to_not eq(nil)
         expect(response.status).to eq(200)
       end
     end

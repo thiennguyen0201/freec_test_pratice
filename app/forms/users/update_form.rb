@@ -8,9 +8,7 @@ module Users
     end
 
     def submit
-      user.update(@user_params)
-
-      user
+      return user if user.update(@user_params)
     end
   end
 end
