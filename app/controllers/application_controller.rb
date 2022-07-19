@@ -24,7 +24,7 @@ class ApplicationController < ActionController::API
 
   def http_token
     @http_token ||= if request.headers['Authorization'].present?
-                      request.headers['Authorization'].split(' ').last
+                      request.headers['Authorization'].split.last
                     end
   end
 
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::API
     render json: { error: 'You are not allowed to take action on this user' },
            status: :unauthorized
 
-    return
+    nil
   end
 
   # Pagination

@@ -9,7 +9,7 @@ class Api::V1::Admin::UsersController < ApplicationController
 
     users =
       Users::AdminUsersQuery.new(filter_params).call
-    render json: { users: users, pages: pagination(users) }, status: :ok
+    render json: { users:, pages: pagination(users) }, status: :ok
   end
 
   def update
