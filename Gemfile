@@ -48,3 +48,6 @@ gem 'pundit'
 
 # Use for pagination
 gem 'kaminari'
+
+# For JSON output
+gem 'active_model_serializers', '~> 0.10.0'

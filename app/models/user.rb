@@ -12,8 +12,8 @@ class User < ApplicationRecord
 
   before_save :downcase_email
 
-  scope :by_name, ->(name) { where('LOWER(name) like ?', "%#{name.downcase}%") }
-  scope :by_email, ->(email) { where('LOWER(email) like ?', "%#{email.downcase}%") }
+  scope :by_name, ->(name) { where('LOWER(name) LIKE ?', "%#{name.downcase}%") }
+  scope :by_email, ->(email) { where('LOWER(email) LIKE ?', "%#{email.downcase}%") }
 
   def downcase_email
     self.email = email.downcase

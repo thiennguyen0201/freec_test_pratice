@@ -9,14 +9,17 @@ class Api::V1::Admin::UsersController < ApplicationController
 
     users =
       Users::AdminUsersQuery.new(filter_params).call
-    render json: { users:, pages: pagination(users) }, status: :ok
+
+    render json: users,
+           meta: meta_attributes(users),
+           status: :ok
   end
 
   def update
     user_form = Users::UpdateForm.new(@user, update_params)
 
     if user_form.submit
-      render json: { user: user_form.user }, status: :ok
+      render json: user_form.user, status: :ok
     else
       render json: { error: user_form.user.errors.full_messages },
              status: :unprocessable_entity
@@ -25,7 +28,7 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   def destroy
     if @user.destroy
-      render json: { user: @user }, status: :ok
+      render json: @user, status: :ok
     else
       render json: { error: @user.errors.full_messages },
              status: :unprocessable_entity
@@ -35,7 +38,7 @@ class Api::V1::Admin::UsersController < ApplicationController
   private
 
   def filter_params
-    params.permit(:name, :email)
+    params.permit(:name, :email, :page)
   end
 
   def update_params
