@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   before_save :downcase_email
 
+  # For more results but indexes are not used
   scope :by_name, ->(name) { where('LOWER(name) LIKE ?', "%#{name.downcase}%") }
   scope :by_email, ->(email) { where('LOWER(email) LIKE ?', "%#{email.downcase}%") }
 
